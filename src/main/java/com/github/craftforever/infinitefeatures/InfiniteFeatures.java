@@ -26,11 +26,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-@Mod(modid = "infeatures")
+@Mod(modid = "infeatures", version = "1.0.0", acceptedMinecraftVersions = "1.12.2")
 public class InfiniteFeatures
 {
-	
 	public static final String modID = "infeatures";
 	public static final String CLIENT_PROXY_CLASS = "com.github.craftforever.infinitefeatures.proxy.ClientProxy";
 	public static final String COMMON_PROXY_CLASS = "com.github.craftforever.infinitefeatures.proxy.CommonProxy";
@@ -135,6 +135,7 @@ public class InfiniteFeatures
 			mc.shutdown();
 		}
 		
+		// TODO load objects from file to the registry.
 	}
 	public static byte[] longToByte(long l) {
 		byte[] b = new byte[] {
