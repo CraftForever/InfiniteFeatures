@@ -15,6 +15,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiCreateWorld;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,11 +28,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-@Mod(modid = "infeatures", version = "1.0.0", acceptedMinecraftVersions = "1.12.2")
+@Mod(modid = "infeatures")
 public class InfiniteFeatures
 {
+	
 	public static final String modID = "infeatures";
 	public static final String CLIENT_PROXY_CLASS = "com.github.craftforever.infinitefeatures.proxy.ClientProxy";
 	public static final String COMMON_PROXY_CLASS = "com.github.craftforever.infinitefeatures.proxy.CommonProxy";
@@ -42,6 +44,20 @@ public class InfiniteFeatures
 	public static GuiScreen parentscreen;
 	public static Logger logger = LogManager.getLogger();
 	public static boolean continueRandomGeneration = true;
+	
+
+	public static CreativeTabs infItemsTab = new CreativeTabs("infeatures_items_tab")
+	{
+		@Override
+		public ItemStack createIcon() {	return new ItemStack(Templates.items()[0]);	}
+	};
+	
+	public static CreativeTabs infBlocksTab = new CreativeTabs("infeatures_blocks_tab")
+	{
+		@Override
+		public ItemStack createIcon() {	return new ItemStack(Templates.blocks()[0]);	}
+	};
+	
 	
 	
 	@Instance
@@ -93,6 +109,7 @@ public class InfiniteFeatures
 		
 		MinecraftForge.EVENT_BUS.register(getClass());
 	}
+	
 	public static void saveInfFile(long Iseed, String saveDir, String worldName,Minecraft mc) throws IOException
 	{
 		boolean shutItDown = false;
@@ -135,7 +152,6 @@ public class InfiniteFeatures
 			mc.shutdown();
 		}
 		
-		// TODO load objects from file to the registry.
 	}
 	public static byte[] longToByte(long l) {
 		byte[] b = new byte[] {
