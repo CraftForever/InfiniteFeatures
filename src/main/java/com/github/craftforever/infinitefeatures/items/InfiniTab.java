@@ -9,14 +9,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class InfiniTab extends CreativeTabs {
-    public InfiniTab(String label) {
-	super(label);
-    }
+	public InfiniTab(String label) {
+		super(label);
+	}
 
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 
-    @Override
-    public ItemStack createIcon() {
-	return new ItemStack(Item.getItemFromBlock(ModBlocks.blockArray[0]));
-    }
+	@Override
+	public ItemStack createIcon() {
+		return new ItemStack(Item.getItemFromBlock(ModBlocks.blockArray[0]));
+	}
 }

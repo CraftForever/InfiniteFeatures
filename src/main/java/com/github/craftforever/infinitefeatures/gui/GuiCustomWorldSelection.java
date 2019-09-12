@@ -18,158 +18,158 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCustomWorldSelection extends GuiScreen {
-    /** The screen to return to when this closes (always Main Menu). */
-    protected GuiScreen prevScreen;
-    protected String title = "Select world";
-    /** Tooltip displayed a world whose version is different from this client's */
-    private String worldVersTooltip;
-    private GuiButton deleteButton;
-    private GuiButton selectButton;
-    private GuiButton renameButton;
-    private GuiButton copyButton;
-    private GuiCustomListWorldSelection selectionList;
-    public GuiWorldSelection guiWorldSelect;
+	/** The screen to return to when this closes (always Main Menu). */
+	protected GuiScreen prevScreen;
+	protected String title = "Select world";
+	/** Tooltip displayed a world whose version is different from this client's */
+	private String worldVersTooltip;
+	private GuiButton deleteButton;
+	private GuiButton selectButton;
+	private GuiButton renameButton;
+	private GuiButton copyButton;
+	private GuiCustomListWorldSelection selectionList;
+	public GuiWorldSelection guiWorldSelect;
 
-    public GuiCustomWorldSelection(GuiScreen screenIn, GuiWorldSelection GuiWorldSelection) {
-	this.prevScreen = screenIn;
-	guiWorldSelect = GuiWorldSelection;
-    }
-
-    /**
-     * Adds the buttons (and other controls) to the screen in question. Called when
-     * the GUI is displayed and when the window resizes, the buttonList is cleared
-     * beforehand.
-     */
-    @Override
-    public void initGui() {
-	this.title = I18n.format("selectWorld.title");
-	this.selectionList = new GuiCustomListWorldSelection(this, this.mc, this.width, this.height, 32,
-		this.height - 64, 36);
-	this.postInit();
-    }
-
-    /**
-     * Handles mouse input.
-     */
-    @Override
-    public void handleMouseInput() throws IOException {
-	super.handleMouseInput();
-	this.selectionList.handleMouseInput();
-    }
-
-    public void postInit() {
-	this.selectButton = this.addButton(
-		new GuiButton(1, this.width / 2 - 154, this.height - 52, 150, 20, I18n.format("selectWorld.select")));
-	if (!InfiniteFeatures.fastLoad) {
-	    this.addButton(
-		    new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20, I18n.format("selectWorld.create")));
+	public GuiCustomWorldSelection(GuiScreen screenIn, GuiWorldSelection GuiWorldSelection) {
+		this.prevScreen = screenIn;
+		guiWorldSelect = GuiWorldSelection;
 	}
-	this.renameButton = this.addButton(
-		new GuiButton(4, this.width / 2 - 154, this.height - 28, 72, 20, I18n.format("selectWorld.edit")));
-	this.deleteButton = this.addButton(
-		new GuiButton(2, this.width / 2 - 76, this.height - 28, 72, 20, I18n.format("selectWorld.delete")));
-	this.copyButton = this.addButton(
-		new GuiButton(5, this.width / 2 + 4, this.height - 28, 72, 20, I18n.format("selectWorld.recreate")));
-	this.addButton(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20, I18n.format("gui.cancel")));
-	this.selectButton.enabled = InfiniteFeatures.fastLoad;
-	this.deleteButton.enabled = false;
-	this.renameButton.enabled = false;
-	this.copyButton.enabled = false;
 
-	if (InfiniteFeatures.fastLoad) {
-	    // GuiCustomListWorldSelectionEntry guilistworldselectionentry =
-	    // this.selectionList.getListEntry(InfiniteFeatures.fastIndex);
-	    // guilistworldselectionentry.joinWorld();
+	/**
+	 * Adds the buttons (and other controls) to the screen in question. Called when
+	 * the GUI is displayed and when the window resizes, the buttonList is cleared
+	 * beforehand.
+	 */
+	@Override
+	public void initGui() {
+		this.title = I18n.format("selectWorld.title");
+		this.selectionList = new GuiCustomListWorldSelection(this, this.mc, this.width, this.height, 32,
+				this.height - 64, 36);
+		this.postInit();
 	}
-    }
 
-    /**
-     * Called by the controls from the buttonList when activated. (Mouse pressed for
-     * buttons)
-     */
-    @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
-	if (button.enabled) {
-	    GuiCustomListWorldSelectionEntry guilistworldselectionentry;
-	    if (!InfiniteFeatures.fastLoad) {
-		guilistworldselectionentry = this.selectionList.getSelectedWorld();
-	    } else {
-		guilistworldselectionentry = this.selectionList.getListEntry(InfiniteFeatures.fastIndex);
-	    }
-	    if (button.id == 2) {
-		if (guilistworldselectionentry != null) {
-		    guilistworldselectionentry.deleteWorld();
+	/**
+	 * Handles mouse input.
+	 */
+	@Override
+	public void handleMouseInput() throws IOException {
+		super.handleMouseInput();
+		this.selectionList.handleMouseInput();
+	}
+
+	public void postInit() {
+		this.selectButton = this.addButton(
+				new GuiButton(1, this.width / 2 - 154, this.height - 52, 150, 20, I18n.format("selectWorld.select")));
+		if (!InfiniteFeatures.fastLoad) {
+			this.addButton(
+					new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20, I18n.format("selectWorld.create")));
 		}
-	    } else if (button.id == 1) {
-		if (guilistworldselectionentry != null) {
-		    guilistworldselectionentry.joinWorld();
+		this.renameButton = this.addButton(
+				new GuiButton(4, this.width / 2 - 154, this.height - 28, 72, 20, I18n.format("selectWorld.edit")));
+		this.deleteButton = this.addButton(
+				new GuiButton(2, this.width / 2 - 76, this.height - 28, 72, 20, I18n.format("selectWorld.delete")));
+		this.copyButton = this.addButton(
+				new GuiButton(5, this.width / 2 + 4, this.height - 28, 72, 20, I18n.format("selectWorld.recreate")));
+		this.addButton(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20, I18n.format("gui.cancel")));
+		this.selectButton.enabled = InfiniteFeatures.fastLoad;
+		this.deleteButton.enabled = false;
+		this.renameButton.enabled = false;
+		this.copyButton.enabled = false;
+
+		if (InfiniteFeatures.fastLoad) {
+			// GuiCustomListWorldSelectionEntry guilistworldselectionentry =
+			// this.selectionList.getListEntry(InfiniteFeatures.fastIndex);
+			// guilistworldselectionentry.joinWorld();
 		}
-	    } else if (button.id == 3) {
-		this.mc.displayGuiScreen(new GuiCreateWorld(this));
-	    } else if (button.id == 4) {
-		if (guilistworldselectionentry != null) {
-		    guilistworldselectionentry.editWorld();
+	}
+
+	/**
+	 * Called by the controls from the buttonList when activated. (Mouse pressed for
+	 * buttons)
+	 */
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		if (button.enabled) {
+			GuiCustomListWorldSelectionEntry guilistworldselectionentry;
+			if (!InfiniteFeatures.fastLoad) {
+				guilistworldselectionentry = this.selectionList.getSelectedWorld();
+			} else {
+				guilistworldselectionentry = this.selectionList.getListEntry(InfiniteFeatures.fastIndex);
+			}
+			if (button.id == 2) {
+				if (guilistworldselectionentry != null) {
+					guilistworldselectionentry.deleteWorld();
+				}
+			} else if (button.id == 1) {
+				if (guilistworldselectionentry != null) {
+					guilistworldselectionentry.joinWorld();
+				}
+			} else if (button.id == 3) {
+				this.mc.displayGuiScreen(new GuiCreateWorld(this));
+			} else if (button.id == 4) {
+				if (guilistworldselectionentry != null) {
+					guilistworldselectionentry.editWorld();
+				}
+			} else if (button.id == 0) {
+				this.mc.displayGuiScreen(this.prevScreen);
+			} else if (button.id == 5 && guilistworldselectionentry != null) {
+				guilistworldselectionentry.recreateWorld();
+			}
 		}
-	    } else if (button.id == 0) {
-		this.mc.displayGuiScreen(this.prevScreen);
-	    } else if (button.id == 5 && guilistworldselectionentry != null) {
-		guilistworldselectionentry.recreateWorld();
-	    }
 	}
-    }
 
-    /**
-     * Draws the screen and all the components in it.
-     */
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-	this.worldVersTooltip = null;
-	this.selectionList.drawScreen(mouseX, mouseY, partialTicks);
-	this.drawCenteredString(this.fontRenderer, this.title, this.width / 2, 20, 16777215);
-	super.drawScreen(mouseX, mouseY, partialTicks);
+	/**
+	 * Draws the screen and all the components in it.
+	 */
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.worldVersTooltip = null;
+		this.selectionList.drawScreen(mouseX, mouseY, partialTicks);
+		this.drawCenteredString(this.fontRenderer, this.title, this.width / 2, 20, 16777215);
+		super.drawScreen(mouseX, mouseY, partialTicks);
 
-	if (this.worldVersTooltip != null) {
-	    this.drawHoveringText(Lists.newArrayList(Splitter.on("\n").split(this.worldVersTooltip)), mouseX, mouseY);
+		if (this.worldVersTooltip != null) {
+			this.drawHoveringText(Lists.newArrayList(Splitter.on("\n").split(this.worldVersTooltip)), mouseX, mouseY);
+		}
 	}
-    }
 
-    /**
-     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
-     */
-    @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-	super.mouseClicked(mouseX, mouseY, mouseButton);
-	this.selectionList.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    /**
-     * Called when a mouse button is released.
-     */
-    @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-	super.mouseReleased(mouseX, mouseY, state);
-	this.selectionList.mouseReleased(mouseX, mouseY, state);
-    }
-
-    /**
-     * Called back by selectionList when we call its drawScreen method, from ours.
-     */
-    public void setVersionTooltip(String p_184861_1_) {
-	this.worldVersTooltip = p_184861_1_;
-    }
-
-    public void selectWorld(@Nullable GuiCustomListWorldSelectionEntry guiCustomListWorldSelectionEntry) {
-	boolean flag = guiCustomListWorldSelectionEntry != null;
-	if (!InfiniteFeatures.fastLoad) {
-	    this.selectButton.enabled = flag;
-	    this.deleteButton.enabled = flag;
-	    this.renameButton.enabled = flag;
-	    this.copyButton.enabled = flag;
-	} else {
-	    this.selectButton.enabled = true;
-	    this.deleteButton.enabled = false;
-	    this.renameButton.enabled = false;
-	    this.copyButton.enabled = false;
+	/**
+	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+	 */
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		this.selectionList.mouseClicked(mouseX, mouseY, mouseButton);
 	}
-    }
+
+	/**
+	 * Called when a mouse button is released.
+	 */
+	@Override
+	protected void mouseReleased(int mouseX, int mouseY, int state) {
+		super.mouseReleased(mouseX, mouseY, state);
+		this.selectionList.mouseReleased(mouseX, mouseY, state);
+	}
+
+	/**
+	 * Called back by selectionList when we call its drawScreen method, from ours.
+	 */
+	public void setVersionTooltip(String p_184861_1_) {
+		this.worldVersTooltip = p_184861_1_;
+	}
+
+	public void selectWorld(@Nullable GuiCustomListWorldSelectionEntry guiCustomListWorldSelectionEntry) {
+		boolean flag = guiCustomListWorldSelectionEntry != null;
+		if (!InfiniteFeatures.fastLoad) {
+			this.selectButton.enabled = flag;
+			this.deleteButton.enabled = flag;
+			this.renameButton.enabled = flag;
+			this.copyButton.enabled = flag;
+		} else {
+			this.selectButton.enabled = true;
+			this.deleteButton.enabled = false;
+			this.renameButton.enabled = false;
+			this.copyButton.enabled = false;
+		}
+	}
 }
