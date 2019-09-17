@@ -15,16 +15,26 @@ import net.minecraft.block.material.Material;
 public class ModBlocks
 {
 	
-	public static String[] textpartarray =
-		{	"pa","pe","pi","po","pu","ta","te","ti","to","tu","ga","ge","gi","go","gu","fa","fe",
-			"fi","fo","fu","ka","ke","ki","ko","ku","ha","he","hi",
-			"ho","hu","la","le","li","lo","lu","na","ne","ni","no","nu","ra","re","ri","ro","ru"};
+	public static String[] one_consonants = {
+			"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "qu", "r", "s", "t", "v", "w", "x", "y", "z"
+	};
+
+	public static String[] two_consonants = {
+			"bh", "bl", "br", "bw", "ch", "cl", "cr", "cw", "dh", "dr", "dw", "fl", "fr", "fw", "gh", "gl", "gr", "gw",
+			"kl", "kr", "kw", "ph", "pl", "pr", "pw", "rh", "sc", "sh", "sk", "sl", "sm", "sn", "sp", "squ", "sr", "st",
+			"sv", "sw", "th", "tr", "tw", "v", "vl", "vr", "vw", "zh"
+	};
+
+	public static String[] vowels = {
+			"a", "e", "i", "o", "u", "ae", "ai", "ao", "au", "ea", "ee", "ei", "eo", "eu", "ia", "ie", "io", "iu", "oa",
+			"oe", "oi", "oo", "ou", "ua", "ue", "ui", "uo"
+	};
+
 	public static void initarray()
 	{
 
 	}
-//	public static String name1 = textpartarray[InfiniteFeatures.getSeededRandom(1).nextInt(44)]+textpartarray[InfiniteFeatures.getSeededRandom(1).nextInt(44)]
-//			+textpartarray[InfiniteFeatures.getSeededRandom(1).nextInt(44)]+textpartarray[InfiniteFeatures.getSeededRandom(1).nextInt(44)];
+
 	public static Mineral[] minerals = generatemineralarray();
 	
 	public static final List<Block> BLOCKS = new ArrayList<Block>();
@@ -43,7 +53,7 @@ public class ModBlocks
 
   public static Mineral getRandomMineral(int i) 
   {
-		return RandomFactory.randomMineralFactory(textpartarray,i);
+		return RandomFactory.randomMineralFactory(one_consonants, two_consonants, vowels, i);
 	}
 	
 	private static Mineral[] generatemineralarray()

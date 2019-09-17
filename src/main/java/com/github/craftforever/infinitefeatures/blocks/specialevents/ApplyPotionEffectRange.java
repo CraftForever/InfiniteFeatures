@@ -1,12 +1,13 @@
 package com.github.craftforever.infinitefeatures.blocks.specialevents;
 
-import com.github.craftforever.infinitefeatures.blocks.RandomGemOre;
-import com.github.craftforever.infinitefeatures.blocks.RandomIngotOre;
+import com.github.craftforever.infinitefeatures.blocks.OreWithSpecialEvents;
 import com.github.craftforever.infinitefeatures.helpers.RandomHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ApplyPotionEffectRange implements ISpecialEvent {
 
@@ -54,9 +55,10 @@ public class ApplyPotionEffectRange implements ISpecialEvent {
     }
 
     @Override
-    public void Execute(RandomIngotOre block, boolean livingEntity, Entity relatedEntity, EntityLivingBase relatedLivingEntity)
+    public void Execute(OreWithSpecialEvents block, Entity relatedEntity,
+    EntityLivingBase relatedLivingEntity, World world, BlockPos nullable_blockPos)
     {
-        if (livingEntity){
+        if (relatedLivingEntity != null){
             
             int duration = (int)Math.round(RandomHelper.getRandomGaussianInRange((double)duration_mean, (double)duration_std, (double)duration_min, (double)duration_max));
             int level = (int)Math.round(RandomHelper.getRandomGaussianInRange((double)level_mean, (double)level_std, (double)level_min, (double)level_max));
@@ -67,11 +69,4 @@ public class ApplyPotionEffectRange implements ISpecialEvent {
         }
 
     }
-
-	@Override
-	public void ExecuteGem(RandomGemOre block, boolean livingEntity, Entity relatedEntity,
-			EntityLivingBase relatedLivingEntity) {
-		// TODO Auto-generated method stub
-		
-	}
 }
