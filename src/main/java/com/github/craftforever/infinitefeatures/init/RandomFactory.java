@@ -1,23 +1,32 @@
 package com.github.craftforever.infinitefeatures.init;
 
-import com.github.craftforever.infinitefeatures.InfiniteFeatures;
-import com.github.craftforever.infinitefeatures.blocks.RandomOre;
-import com.github.craftforever.infinitefeatures.blocks.RandomOre.SpecialEventTrigger;
-import com.github.craftforever.infinitefeatures.blocks.specialevents.*;
-import com.github.craftforever.infinitefeatures.helpers.RandomHelper;
-import com.github.craftforever.infinitefeatures.util.Mineral;
+import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.getRandomBoolean;
+import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.getRandomFloatInRange;
+import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.getRandomGaussianInRange;
+import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.getRandomIntInRange;
+import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.getRandomItem;
+import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.randomEnum;
 
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.awt.*;
 
-import static com.github.craftforever.infinitefeatures.helpers.RandomHelper.*;
+import com.github.craftforever.infinitefeatures.InfiniteFeatures;
+import com.github.craftforever.infinitefeatures.blocks.RandomOre;
+import com.github.craftforever.infinitefeatures.blocks.RandomOre.SpecialEventTrigger;
+import com.github.craftforever.infinitefeatures.blocks.specialevents.ApplyPotionEffectRange;
+import com.github.craftforever.infinitefeatures.blocks.specialevents.ApplyPotionEffectRangeRandomly;
+import com.github.craftforever.infinitefeatures.blocks.specialevents.ISpecialEvent;
+import com.github.craftforever.infinitefeatures.blocks.tree.RandomLog;
+import com.github.craftforever.infinitefeatures.helpers.RandomHelper;
+import com.github.craftforever.infinitefeatures.util.Mineral;
+import com.github.craftforever.infinitefeatures.util.Wood;
+
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 
 public class RandomFactory 
 {
@@ -180,6 +189,54 @@ public class RandomFactory
         return randomBlock;
     }
 
+    public static RandomLog randomLogFactory(Wood iwood) 
+    {
+    	float randomLightLevel = 0F;
+        if (getRandomBoolean((float) LIGHTLEVEL_GLOW_PROBABILITY)) 
+        {
+            // The ore will glow
+            randomLightLevel = (float)getRandomIntInRange(LIGHTLEVEL_MIN,LIGHTLEVEL_MAX) / 15;
+        }
+        else 
+        {
+            // The ore won't glow
+            randomLightLevel = 0F;
+        }
+
+        // TODO: pick tool type based off the base texture, (sand/dirt base textures
+        // probably makes sense to use a shovel)
+        // Depending on the direction/extent you want to take the randomisation this
+        // could be generated randomly although that would make for poor experiences
+        int randomHarvestLevel = getRandomIntInRange(HARVEST_LEVEL_MIN, HARVEST_LEVEL_MAX);
+
+        // How long it takes to mine
+        float randomHardness = (float) getRandomIntInRange(HARDNESS_MIN, HARDNESS_MAX);
+
+        // Initialize the mappings between event triggers and events
+        HashMap<com.github.craftforever.infinitefeatures.blocks.RandomOre.SpecialEventTrigger, List<ISpecialEvent>> randomUniqueActions = new HashMap<com.github.craftforever.infinitefeatures.blocks.RandomOre.SpecialEventTrigger, List<ISpecialEvent>>();
+
+        for (SpecialEventTrigger trigger : SpecialEventTrigger.values())
+        {
+            List<ISpecialEvent> events = new ArrayList<ISpecialEvent>();
+            randomUniqueActions.put(trigger, events);
+        }
+
+        // Assign the TestEvent to a random trigger
+        SpecialEventTrigger randomTrigger = randomEnum(SpecialEventTrigger.class);
+
+        List<ISpecialEvent> allPossibleEvents = GenerateAllPossibleEvents();
+
+        ISpecialEvent selectedEvent = RandomHelper.getRandomItem(allPossibleEvents);
+
+        randomUniqueActions.get(randomTrigger).add(selectedEvent);
+    	
+    	RandomLog randomBlock = new RandomLog(iwood, randomLightLevel, randomHarvestLevel, randomHardness, randomUniqueActions);
+    	
+    	
+    	
+    	return randomBlock;
+    }
+    
     public static Mineral randomMineralFactory(String[] one_consonants, String[] two_consonants, String[] vowels,
                                                int quality) {
         String randomName;
@@ -258,4 +315,73 @@ public class RandomFactory
         return randomMineral;
     }
 
+    public static Wood randomWoodFactory(String[] one_consonants, String[] two_consonants, String[] vowels) 
+    {
+    	String randomName;
+
+        String firstSyllable;
+        String secondSyllable;
+        String thirdSyllable;
+        String fourthSyllable;
+        String fifthSyllable;
+
+        boolean fourthSyllableChance = getRandomBoolean(0.5F);
+        boolean fifthSyllableChance = getRandomBoolean(0.5F);
+
+        List<String> one_consonants_list = Arrays.asList(one_consonants);
+        List<String> two_consonants_list = Arrays.asList(two_consonants);
+        List<String> vowels_list = Arrays.asList(vowels);
+
+        // First syllable
+        if (getRandomBoolean(0.5F)) {
+            firstSyllable = "";
+        } else {
+            if (getRandomBoolean(0.5F)) {
+                firstSyllable = getRandomItem(one_consonants_list);
+            } else {
+                firstSyllable = getRandomItem(two_consonants_list);
+            }
+        }
+
+        // Second syllable
+        secondSyllable = getRandomItem(vowels_list);
+
+        // Third syllable
+        if (getRandomBoolean(0.5F)) {
+            thirdSyllable = getRandomItem(one_consonants_list);
+        } else {
+            thirdSyllable = getRandomItem(two_consonants_list);
+        }
+
+        // Fourth syllable
+        if (fourthSyllableChance) {
+            fourthSyllable = "";
+        } else {
+            fourthSyllable = getRandomItem(vowels_list);
+        }
+
+        // Fifth syllable
+        if (fifthSyllableChance) {
+            fifthSyllable = "";
+        } else {
+            if (getRandomBoolean(0.5F)) {
+                fifthSyllable = getRandomItem(one_consonants_list);
+            } else {
+                fifthSyllable = getRandomItem(two_consonants_list);
+            }
+        }
+        
+        randomName = firstSyllable + secondSyllable + thirdSyllable + fourthSyllable + fifthSyllable;
+        
+        Color randomColor = new Color(InfiniteFeatures.seededRandom.nextInt(RGB_MAX),
+                InfiniteFeatures.seededRandom.nextInt(RGB_MAX), InfiniteFeatures.seededRandom.nextInt(RGB_MAX));
+        Color leaveColor = new Color(InfiniteFeatures.seededRandom.nextInt(RGB_MAX),
+                InfiniteFeatures.seededRandom.nextInt(RGB_MAX), InfiniteFeatures.seededRandom.nextInt(RGB_MAX));
+        Color plankColor = new Color(InfiniteFeatures.seededRandom.nextInt(RGB_MAX),
+                InfiniteFeatures.seededRandom.nextInt(RGB_MAX), InfiniteFeatures.seededRandom.nextInt(RGB_MAX));
+        Wood randomWood = new Wood(randomName, randomColor, leaveColor, plankColor);
+
+        return randomWood;
+    }
 }
+    
