@@ -254,13 +254,14 @@ public class RegistryHandler
 			BufferedImage Img;
 			if(ModBlocks.minerals[i].isGem) 
 			{
-				int rand = getRandomIntInRange(1, 28);
+				int rand = getRandomIntInRange(1, 32);
 				InputStream stream = InfiniteFeatures.class.getClassLoader().getResourceAsStream("assets/infeatures/textures/item/gem/generic"+rand+".png");
 				Img = ImageIO.read(stream);
 			}
 			else 
 			{
-				InputStream stream = InfiniteFeatures.class.getClassLoader().getResourceAsStream("assets/infeatures/textures/item/ingot/generic.png");
+				int randingot = getRandomIntInRange(0, 11);
+				InputStream stream = InfiniteFeatures.class.getClassLoader().getResourceAsStream("assets/infeatures/textures/item/ingot/ingot_"+randingot+".png");
 				Img = ImageIO.read(stream);
 			}
 			dye(Img, color);
@@ -357,7 +358,7 @@ public class RegistryHandler
 			g.drawImage(headImg, 0, 0, null);
 			ImageIO.write(finalImg, "PNG", new File("InfiniCraft/Resources/assets/infeatures/textures/items/"+ModItems.pickaxeArray[i].getTranslationKey().substring(5)+".png"));
 			
-			int swordnum = getRandomIntInRange(0, 9);
+			int swordnum = getRandomIntInRange(0, 10);
 			stream = InfiniteFeatures.class.getClassLoader().getResourceAsStream("assets/infeatures/textures/item/tool/sword/sword_handle.png");
 			baseImg = ImageIO.read(stream);
 			stream = InfiniteFeatures.class.getClassLoader().getResourceAsStream("assets/infeatures/textures/item/tool/sword/sword"+swordnum+".png");
