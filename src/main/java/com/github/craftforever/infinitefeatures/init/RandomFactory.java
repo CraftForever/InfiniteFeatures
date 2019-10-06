@@ -279,31 +279,31 @@ public class RandomFactory
 
         // Fourth syllable
         if (fourthSyllableChance) {
-            fourthSyllable = "";
-        } else {
             fourthSyllable = getRandomItem(vowels_list);
+        } else {
+            fourthSyllable = "";
         }
 
         // Fifth syllable
-        if (fifthSyllableChance) {
-            fifthSyllable = "";
-        } else {
+        if (fourthSyllableChance && fifthSyllableChance) {
             if (getRandomBoolean(0.5F)) {
                 fifthSyllable = getRandomItem(one_consonants_list);
             } else {
                 fifthSyllable = getRandomItem(two_consonants_list);
             }
+        } else {
+            fifthSyllable = "";
         }
 
         // Ending
-        if (endingChance) {
-            ending = "";
-        } else {
+        if (fourthSyllableChance && fifthSyllableChance && endingChance) {
             if (getRandomBoolean(0.5F)) {
                 ending = "ite";
             } else {
                 ending = "ium";
             }
+        } else {
+            ending = "";
         }
 
         randomName = firstSyllable + secondSyllable + thirdSyllable + fourthSyllable + fifthSyllable + ending;
