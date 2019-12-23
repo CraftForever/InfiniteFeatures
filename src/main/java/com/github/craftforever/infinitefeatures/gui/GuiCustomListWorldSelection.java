@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.github.craftforever.infinitefeatures.InfiniteFeatures;
+import com.github.craftforever.infinitefeatures.proxy.ClientProxy;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.AnvilConverterException;
@@ -90,11 +90,11 @@ public class GuiCustomListWorldSelection extends GuiListExtended
 
     public void selectWorld(int idx)
     {
-    	if(!InfiniteFeatures.fastLoad) {
+    	if(!ClientProxy.fastLoad) {
     		this.selectedIdx = idx;
             this.worldSelection.selectWorld(this.getSelectedWorld());
     	}else {
-    		selectedIdx = InfiniteFeatures.fastIndex;
+    		selectedIdx = ClientProxy.fastIndex;
     	}
         
     }

@@ -17,7 +17,7 @@ public class RecipeHandler
 	{
 		for (int i = 0; i < InfiniteFeatures.ORE_QTY; i++)
 		{
-			GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.blockArray[i]), new ItemStack(ModItems.itemArray[i],1), 20);
+			GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.oreArray[i]), new ItemStack(ModItems.itemArray[i],1), 20);
 		}
 		//GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.RANDOM_BLOCK), new ItemStack(ModItems.RANDOM_INGOT1,1), 20);
 		//GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.RANDOM_BLOCK2), new ItemStack(ModItems.RANDOM_INGOT2,1), 20);
@@ -28,7 +28,7 @@ public class RecipeHandler
 		for (int i = 0; i < InfiniteFeatures.ORE_QTY; i++)
 		{
 			String nameItem = ModItems.itemArray[i].getRegistryName().toString();
-			String nameBlock = ModBlocks.blockArray[i].getRegistryName().toString();
+			String nameBlock = ModBlocks.oreArray[i].getRegistryName().toString();
 			GameRegistry.addShapedRecipe(new ResourceLocation("infeatures:"+nameBlock),new ResourceLocation("infeatures:"+nameItem.substring(0,nameItem.length()-6)+"_blocks"),new ItemStack(Item.getItemFromBlock(ModBlocks.ingotblockArray[i]),1), new Object[] {"III","III","III",'I',ModItems.itemArray[i]});
 			GameRegistry.addShapelessRecipe(new ResourceLocation("infeatures:"+nameItem), new ResourceLocation("infeatures:"+nameItem.substring(0,nameItem.length()-6)+"_items"), new ItemStack(ModItems.itemArray[i],9), new Ingredient[] {Ingredient.fromItem(Item.getItemFromBlock(ModBlocks.ingotblockArray[i]))});
 		}
@@ -67,6 +67,11 @@ public class RecipeHandler
 			new ItemStack(ModItems.chestplateArray[i],1),new Object[] {"I I","III","III",'I', ModItems.itemArray[i]});
 			GameRegistry.addShapedRecipe(new ResourceLocation("infeatures:"+helmet), new ResourceLocation("infeatures:"+helmet.substring(0,helmet.length()-7)+"_items"),
 			new ItemStack(ModItems.helmetArray[i],1),new Object[] {"III","I I",'I', ModItems.itemArray[i]});
+		}
+		for(int i = 0; i < InfiniteFeatures.PLANT_QTY; i++) 
+		{
+			GameRegistry.addShapelessRecipe(new ResourceLocation("infeatures:"+ModBlocks.plants[i].name+"_planks"), new ResourceLocation("infeatures:"+ModBlocks.plants[i]+"_blocks"), 
+			new ItemStack(ModBlocks.plankArray[i],4), (Ingredient[]) new Ingredient[] {Ingredient.fromItem(Item.getItemFromBlock(ModBlocks.logArray[i]))});
 		}
 	}
 }

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.github.craftforever.infinitefeatures.InfiniteFeatures;
 import com.github.craftforever.infinitefeatures.helpers.RandomHelper;
 import com.github.craftforever.infinitefeatures.items.ArmorBase;
+import com.github.craftforever.infinitefeatures.items.FoodIngotBase;
 import com.github.craftforever.infinitefeatures.items.ItemIngotBase;
 import com.github.craftforever.infinitefeatures.items.tools.ToolAxe;
 import com.github.craftforever.infinitefeatures.items.tools.ToolHoe;
@@ -25,9 +26,9 @@ import net.minecraftforge.common.util.EnumHelper;
 public class ModItems
 {
 	public static final List<Item> ITEMS = new ArrayList<Item>();
-	public static Item[] ingotArray = generateingotarray();
-	public static Item[] gemArray = generategemarray();
-	public static Item[] itemArray = ArrayUtils.addAll(ingotArray, gemArray);
+	public static Item[] ingotArray = new Item[ModBlocks.ingotorecount];
+	public static Item[] gemArray = new Item[ModBlocks.gemorecount];
+	public static Item[] itemArray = generateitemarray();
 	
 	public static int ToolOres = tooloreamount();
 	public static ToolMaterial[] materialArray = generatetoolmaterials();
@@ -306,14 +307,44 @@ public class ModItems
 	
 	//generating ingots and gems
 	
-	private static Item[] generateingotarray()
+	private static Item[] generateitemarray()
 	{
 		if (InfiniteFeatures.continueRandomGeneration) 
 		{
-			Item[] itemarray = new Item[ModBlocks.ingotorecount];
-			for (int i = 0; i < ModBlocks.ingotorecount; i++)
+			Item[] itemarray = new Item[InfiniteFeatures.ORE_QTY];
+			int gemcount = 0;
+			int ingotcount = 0;
+			for (int i = 0; i < InfiniteFeatures.ORE_QTY; i++)
 			{
-				itemarray[i] = new ItemIngotBase(ModBlocks.minerals[i].name+"_ingot").setCreativeTab(InfiniteFeatures.InfiniTab);
+				String name;
+				if(ModBlocks.minerals[i].isGem) 
+				{
+					name = ModBlocks.minerals[i].name+"_gem";
+				}
+				else 
+				{
+					name = ModBlocks.minerals[i].name+"_ingot";
+				}
+				if(ModBlocks.minerals[i].edible) 
+				{
+					int amount = RandomHelper.getRandomIntInRange(1, 8);
+					boolean isWolfFood = RandomHelper.getRandomBoolean(0.1F);
+					itemarray[i] = new FoodIngotBase(name, amount, 0.6F, isWolfFood).setCreativeTab(InfiniteFeatures.InfiniTab);
+				}
+				else
+				{
+					itemarray[i] = new ItemIngotBase(name).setCreativeTab(InfiniteFeatures.InfiniTab);
+				}
+				if(ModBlocks.minerals[i].isGem) 
+				{
+					gemArray[gemcount] = itemarray[i];
+					gemcount++;
+				}
+				else 
+				{
+					ingotArray[ingotcount] = itemarray[i];
+					ingotcount++;
+				}
 			}
 			return itemarray;
 		}
@@ -324,23 +355,4 @@ public class ModItems
 		}
 		
 	}	
-	
-	private static Item[] generategemarray()
-	{
-		if (InfiniteFeatures.continueRandomGeneration) 
-		{
-			Item[] itemarray = new Item[ModBlocks.gemorecount];
-			for (int i = 0; i < ModBlocks.gemorecount; i++)
-			{
-				itemarray[i] = new ItemIngotBase(ModBlocks.minerals[i+ModBlocks.ingotorecount].name+"_gem").setCreativeTab(InfiniteFeatures.InfiniTab);
-			}
-			return itemarray;
-		}
-		else 
-		{
-			Item[] itemarray = null;
-			return itemarray;
-		}
-		
-	}
 }

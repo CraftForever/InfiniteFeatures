@@ -14,7 +14,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.github.craftforever.infinitefeatures.InfiniteFeatures;
+import com.github.craftforever.infinitefeatures.proxy.ClientProxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -175,7 +175,7 @@ public class GuiCustomListWorldSelectionEntry implements GuiListExtended.IGuiLis
      */
     public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
     {
-    	if (!InfiniteFeatures.fastLoad)
+    	if (!ClientProxy.fastLoad)
     	{
 	        this.containingListSel.selectWorld(slotIndex);
 	
@@ -274,13 +274,13 @@ public class GuiCustomListWorldSelectionEntry implements GuiListExtended.IGuiLis
         {
         	try
         	{
-        		if (!InfiniteFeatures.fastLoad)
+        		if (!ClientProxy.fastLoad)
         		{
-        			InfiniteFeatures.saveInfFileAtLoad(worldSummary,containingListSel.selectedIdx);
+        			ClientProxy.saveInfFileAtLoad(worldSummary,containingListSel.selectedIdx);
         		}
         		else
         		{
-        			InfiniteFeatures.fastLoad = false;
+        			ClientProxy.fastLoad = false;
         		}
 			}
         	catch (IOException e)

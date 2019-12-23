@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.annotation.Nullable;
 
-import com.github.craftforever.infinitefeatures.InfiniteFeatures;
+import com.github.craftforever.infinitefeatures.proxy.ClientProxy;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
@@ -60,22 +60,21 @@ public class GuiCustomWorldSelection extends GuiScreen
     public void postInit()
     {
         this.selectButton = this.addButton(new GuiButton(1, this.width / 2 - 154, this.height - 52, 150, 20, I18n.format("selectWorld.select")));
-        if (!InfiniteFeatures.fastLoad) {
+        if (!ClientProxy.fastLoad) {
         	this.addButton(new GuiButton(3, this.width / 2 + 4, this.height - 52, 150, 20, I18n.format("selectWorld.create")));
         }
         this.renameButton = this.addButton(new GuiButton(4, this.width / 2 - 154, this.height - 28, 72, 20, I18n.format("selectWorld.edit")));
         this.deleteButton = this.addButton(new GuiButton(2, this.width / 2 - 76, this.height - 28, 72, 20, I18n.format("selectWorld.delete")));
         this.copyButton = this.addButton(new GuiButton(5, this.width / 2 + 4, this.height - 28, 72, 20, I18n.format("selectWorld.recreate")));
         this.addButton(new GuiButton(0, this.width / 2 + 82, this.height - 28, 72, 20, I18n.format("gui.cancel")));
-        this.selectButton.enabled = InfiniteFeatures.fastLoad;
+        this.selectButton.enabled = ClientProxy.fastLoad;
         this.deleteButton.enabled = false;
         this.renameButton.enabled = false;
         this.copyButton.enabled = false;
         
-        if (InfiniteFeatures.fastLoad)
+        if (ClientProxy.fastLoad)
         {
-        	//GuiCustomListWorldSelectionEntry guilistworldselectionentry = this.selectionList.getListEntry(InfiniteFeatures.fastIndex);
-        	//guilistworldselectionentry.joinWorld();
+
         }
     }
 
@@ -87,10 +86,10 @@ public class GuiCustomWorldSelection extends GuiScreen
         if (button.enabled)
         {
         	GuiCustomListWorldSelectionEntry guilistworldselectionentry;
-        	if(!InfiniteFeatures.fastLoad) {
+        	if(!ClientProxy.fastLoad) {
         		guilistworldselectionentry = this.selectionList.getSelectedWorld();
         	}else {
-        		guilistworldselectionentry = this.selectionList.getListEntry(InfiniteFeatures.fastIndex);
+        		guilistworldselectionentry = this.selectionList.getListEntry(ClientProxy.fastIndex);
         	}
             if (button.id == 2)
             {
@@ -174,7 +173,7 @@ public class GuiCustomWorldSelection extends GuiScreen
     public void selectWorld(@Nullable GuiCustomListWorldSelectionEntry guiCustomListWorldSelectionEntry)
     {
         boolean flag = guiCustomListWorldSelectionEntry != null;
-        if(!InfiniteFeatures.fastLoad)
+        if(!ClientProxy.fastLoad)
         {
         	this.selectButton.enabled = flag;
             this.deleteButton.enabled = flag;
